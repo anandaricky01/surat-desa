@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ Storage::url(auth()->user()->foto) }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#">{{ auth()->user()->name }}</a>
@@ -40,6 +40,7 @@
               </p>
             </a>
           </li>
+          @if (auth()->user()->role == 'penduduk')
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
@@ -77,6 +78,8 @@
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role == 'pegawai')
           <li class="nav-item">
             <a href="{{ asset('permohonan.php') }}" class="nav-link">
               <i class="nav-icon fas fa-file-alt"></i>
@@ -85,6 +88,8 @@
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role == 'admin' || auth()->user()->role == 'pegawai')
           <li class="nav-item">
             <a href="{{ asset('laporan.php') }}" class="nav-link">
               <i class="nav-icon fab fa-blogger"></i>
@@ -93,6 +98,8 @@
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role == 'admin')
           <li class="nav-item">
             <a href="{{ asset('user.php') }}" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
@@ -101,6 +108,7 @@
               </p>
             </a>
           </li>
+          @endif
           <li class="nav-header">SETTING</li>
           <li class="nav-item">
             <a href="{{ asset('ubahpassword.php') }}" class="nav-link">

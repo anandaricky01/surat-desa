@@ -20,7 +20,7 @@
           <div class="card">
             <div class="card-header">
               <div class="card-tools">
-                <a href="editbiodatapenduduk.php" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i> Edit Biodata</a>
+                <a href="{{ route('biodata.edit') }}" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i> Edit Biodata</a>
               </div>
             </div>
             <!-- /.card-header -->
@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                       <td width="20%"><strong>Foto<strong></td>
-                      <td width="80%"><img src="{{ asset('admin/foto/salnan.jpg') }}" class="img-fluid" width="200px;"></td>
+                      <td width="80%"><img src="{{ Storage::url(auth()->user()->foto) }}" class="img-fluid" width="200px;"></td>
                     </tr>
                     <tr>
                       <td width="20%"><strong>Nama Lengkap<strong></td>

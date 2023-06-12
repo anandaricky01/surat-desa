@@ -31,11 +31,5 @@
 <script src="{{ asset('admin/datepicker/js/bootstrap-datepicker.js') }}"></script>
 <script>
   //Date picker
-  $('#datepicker-year').datepicker({
-    format: "yyyy",
-    orientation: "top auto",
-    viewMode: "years",
-    minViewMode: "years",
-    autoclose: true
-  });
+  $('#datepicker-year').datepicker();
 </script>

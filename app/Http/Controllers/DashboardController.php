@@ -10,7 +10,4 @@ class DashboardController extends Controller
         return view('dashboard.index');
     }
 
-    public function biodata(){
-        return view('dashboard.biodata');
-    }
 }
