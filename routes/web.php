@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,4 +37,13 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');
     Route::get('/biodata/edit', [BiodataController::class, 'edit'])->name('biodata.edit');
     Route::post('/biodata/edit', [BiodataController::class, 'update'])->name('biodata.update');
+
+    Route::resource('user', UserController::class)
+        ->name('index', 'user.index')
+        ->name('create', 'user.create')
+        ->name('store', 'user.store')
+        ->name('show', 'user.show')
+        ->name('edit', 'user.edit')
+        ->name('update', 'user.update')
+        ->name('destroy', 'user.delete');
 });

@@ -4,11 +4,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h3><i class="fas fa-user-tie"></i> Biodata {{ auth()->user()->role }}</h3>
+          <h3><i class="fas fa-user-tie"></i> Detail User</h3>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Biodata</li>
+            <li class="breadcrumb-item active">Detail User</li>
           </ol>
         </div>
       </div>
@@ -20,74 +20,73 @@
           <div class="card">
             <div class="card-header">
               <div class="card-tools">
-                <a href="{{ route('biodata.edit') }}" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i> Edit Biodata</a>
+                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i> Edit User</a>
               </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                @if (session()->has('success'))
-                    <div class="col-sm-12">
-                        <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
-                    </div>
-                @endif
               <table class="table table-bordered">
                   <tbody>
                     <tr>
-                      <td colspan="2"><i class="fas fa-user-circle"></i> <strong>Biodata Penduduk<strong></td>
+                      <td colspan="2"><i class="fas fa-user-circle"></i> <strong>Detail User<strong></td>
                     </tr>
                     <tr>
                       <td width="20%"><strong>Foto<strong></td>
-                      <td width="80%"><img src="{{ auth()->user()->foto != null ? Storage::url(auth()->user()->foto) : asset('img/user.png') }}" class="img-fluid" width="200px;"></td>
+                      <td width="80%"><img src="{{ $user->foto != null ? Storage::url($user->foto) : asset('img/user.png') }}" class="img-fluid" width="200px;"></td>
                     </tr>
                     <tr>
                       <td width="20%"><strong>Nama Lengkap<strong></td>
-                      <td width="80%">{{ auth()->user()->name }}</td>
+                      <td width="80%">{!! $user->name ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
                     <tr>
                       <td width="20%"><strong>No. KK<strong></td>
-                      <td width="80%">{{ auth()->user()->no_kk }}</td>
+                      <td width="80%">{!! $user->no_kk ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
                     <tr>
                       <td width="20%"><strong>NIK<strong></td>
-                      <td width="80%">{{ auth()->user()->nik }}</td>
+                      <td width="80%">{!! $user->nik ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
                     <tr>
                       <td width="20%"><strong>Jenis Kelamin<strong></td>
-                      <td width="80%">{{ auth()->user()->gender }}</td>
+                      <td width="80%">{!! $user->gender ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
-                    @if (auth()->user()->role == 'penduduk')
+                    @if ($user->role == 'penduduk')
                         <tr>
                         <td width="20%"><strong>Tempat Lahir<strong></td>
-                        <td width="80%">{{ auth()->user()->tempat_lahir }}</td>
+                        <td width="80%">{!! $user->tempat_lahir ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                         </tr>
                         <tr>
                         <td width="20%"><strong>Tanggal Lahir<strong></td>
-                        <td width="80%">{{ auth()->user()->tanggal_lahir }}</td>
+                        <td width="80%">{!! $user->tanggal_lahir ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                         </tr>
                     @endif
                     <tr>
                       <td width="20%"><strong>Alamat Lengkap<strong></td>
-                      <td width="80%">{{ auth()->user()->alamat }}</td>
+                      <td width="80%">{!! $user->alamat ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
-                    @if (auth()->user()->role == 'penduduk')
+                    @if ($user->role == 'penduduk')
                     <tr>
                       <td width="20%"><strong>Pekerjaan<strong></td>
-                      <td width="80%">{{ auth()->user()->pekerjaan }}</td>
+                      <td width="80%">{!! $user->pekerjaan ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
                     @endif
-                    @if (auth()->user()->role == 'pegawai')
+                    @if ($user->role == 'pegawai')
                     <tr>
                       <td width="20%"><strong>Jabatan<strong></td>
-                      <td width="80%">{{ auth()->user()->jabatan }}</td>
+                      <td width="80%">{!! $user->jabatan ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
                     @endif
                     <tr>
                       <td width="20%"><strong>No. HP<strong></td>
-                      <td width="80%">{{ auth()->user()->no_hp }}</td>
+                      <td width="80%">{!! $user->no_hp ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
                     <tr>
                       <td width="20%"><strong>Email<strong></td>
-                      <td width="80%">{{ auth()->user()->email }}</td>
+                      <td width="80%">{!! $user->email ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
+                    </tr>
+                    <tr>
+                      <td width="20%"><strong>Role<strong></td>
+                      <td width="80%">{!! $user->role ?? '<p style="color: gray;">belum dilengkapi</p>'!!}</td>
                     </tr>
                   </tbody>
                 </table>

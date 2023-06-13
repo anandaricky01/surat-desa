@@ -32,9 +32,16 @@ class User extends Authenticatable
         'pekerjaan',
         'no_hp',
         'jabatan',
+        'foto'
     ];
 
 
+    public function scopeFilter($query, array $searchTerm){
+        $query->when($searchTerm['search'] ?? false, fn($query, $search) => $query
+        ->where('name', 'LIKE', '%' . $search . '%')
+        ->orWhere('username', 'LIKE', '%' . $search . '%')
+        ->orWhere('email', 'LIKE' , '%'. $search . '%'));
+    }
 
 
     /**

@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ Storage::url(auth()->user()->foto) }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ auth()->user()->foto != null ? Storage::url(auth()->user()->foto) : asset('img/user.png') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#">{{ auth()->user()->name }}</a>
@@ -23,7 +23,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
+          <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : ''}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
@@ -33,7 +33,7 @@
           </li>
           <li class="nav-header">FITUR</li>
           <li class="nav-item">
-            <a href="{{ route('biodata') }}" class="nav-link {{ request()->is('dashboard/biodata') ? 'active' : ''}}">
+            <a href="{{ route('biodata') }}" class="nav-link {{ request()->is('dashboard/biodata*') ? 'active' : ''}}">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Biodata
@@ -101,7 +101,7 @@
           @endif
           @if (auth()->user()->role == 'admin')
           <li class="nav-item">
-            <a href="{{ asset('user.php') }}" class="nav-link">
+            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('dashboard/user*') ? 'active' : ''}}">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>
                 Pengaturan User
