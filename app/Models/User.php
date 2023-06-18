@@ -63,4 +63,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function sktm(){
+        return $this->hasMany(SKTM::class);
+    }
+
+    public function pengantar_ktp(){
+        return $this->hasMany(PengangarKTP::class);
+    }
+
+    public function surat_kematian(){
+        return $this->hasMany(SuratKematian::class);
+    }
 }

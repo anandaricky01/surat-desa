@@ -27,14 +27,14 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>0</h3>
+                  <h3>{{ $sktm }}</h3>
 
                   <p>Surat Keterangan Tidak Mampu</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-bag"></i>
                 </div>
-                <a href="sktm.php" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('sktm') }}" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -42,14 +42,14 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>0<sup style="font-size: 20px"></sup></h3>
+                  <h3>{{ $pengantar_ktp }}<sup style="font-size: 20px"></sup></h3>
 
                   <p>Surat Pengantar Pembuatan KTP</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="pengantarktp.php" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('pengantar_ktp') }}" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -57,7 +57,7 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>0</h3>
+                  <h3>{{ $surat_kematian }}</h3>
 
                   <p>Surat Keterangan Kematian</p>
                 </div>
