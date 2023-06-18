@@ -6,11 +6,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><i class="fas fa-book"></i> Permohonan Surat Masuk</h3>
+                <h3><i class="fas fa-book"></i> Laporan Surat Masuk</h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active"> Permohonan Surat Masuk</li>
+                    <li class="breadcrumb-item active"> Laporan Surat Masuk</li>
                 </ol>
             </div>
         </div>
@@ -131,47 +131,6 @@
                                 href="{{ route('detail_surat_kematian', $surat->id) }}"
                                 @endif
                                 class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i> Detail</a>
-                            @if($surat->status == 'sedang diproses')
-
-                                <a id="acc-link-{{ $surat->id }}" href="editbuku.php" class="btn btn-xs btn-info" title="Edit"><i
-                                    class="fas fa-check"></i></a>
-                                <form id="acc-{{ $surat->id }}" action="{{ route('proses_surat', [$surat->id, 'acc']) }}" method="POST"
-                                    style="display: none;">
-                                    <!-- Tambahkan input token CSRF jika diperlukan -->
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <input type="hidden" name="jenis_surat" value="{{ $surat->jenis_surat }}">
-                                    <input type="hidden" name="tanggapan" id="tanggapan-{{ $surat->id }}" value="">
-                                </form>
-                                <script>
-                                    document.getElementById('acc-link-{{ $surat->id }}').addEventListener('click', function(event) {
-                                        event.preventDefault(); // Mencegah perpindahan halaman saat tautan diklik
-                                        var tanggapan = prompt("Masukkan tanggapan:");
-                                        if (tanggapan) {
-                                            document.getElementById('tanggapan-{{ $surat->id }}').value = tanggapan;
-                                            document.getElementById('acc-{{ $surat->id }}').submit();
-                                        }
-                                    });
-                                </script>
-
-                                <a id="tidak-acc-link-{{ $surat->id }}" href="#" class="btn btn-xs btn-danger"><i class="fas fa-times" title="Hapus"></i></a>
-                                <form id="tidak-acc-{{ $surat->id }}" action="{{ route('proses_surat', [$surat->id, 'tidak acc']) }}" method="POST"
-                                    style="display: none;">
-                                    <!-- Tambahkan input token CSRF jika diperlukan -->
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <input type="hidden" name="jenis_surat" value="{{ $surat->jenis_surat }}">
-                                    <input type="hidden" name="tanggapan" id="tanggapan-{{ $surat->id }}" value="">
-                                </form>
-                                <script>
-                                    document.getElementById('tidak-acc-link-{{ $surat->id }}').addEventListener('click', function(event) {
-                                        event.preventDefault(); // Mencegah perpindahan halaman saat tautan diklik
-                                        var tanggapan = prompt("Masukkan tanggapan anda:");
-                                        if (tanggapan) {
-                                            document.getElementById('tanggapan-{{ $surat->id }}').value = tanggapan;
-                                            document.getElementById('tidak-acc-{{ $surat->id }}').submit();
-                                        }
-                                    });
-                                </script>
-                            @endif
                         </td>
                     </tr>
                     @endforeach

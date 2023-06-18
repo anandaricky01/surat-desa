@@ -52,6 +52,8 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     // Halaman status request
     Route::get('/status-request', [SuratController::class, 'status_request'])->name('status_request');
     Route::get('/permohonan-surat-masuk', [SuratController::class, 'permohonan_surat_masuk'])->name('permohonan_surat_masuk');
+    Route::get('/laporan', [SuratController::class, 'laporan'])->name('laporan');
+    Route::post('/proses-surat-masuk/{id}/{proses}', [SuratController::class, 'proses_surat'])->name('proses_surat');
 
     // route biodata
     Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');

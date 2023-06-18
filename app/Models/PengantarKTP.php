@@ -16,6 +16,7 @@ class PengantarKTP extends Model
         'status',
         'scan_kk',
         'keterangan',
+        'tanggapan',
     ];
 
     public function scopeFilter($query, Array $filters){
@@ -23,7 +24,7 @@ class PengantarKTP extends Model
             $query->whereHas('user', function ($query) use ($search){
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('nik', 'like', '%' . $search . '%');
-            });
+            })->orWhere('jenis_surat', 'like', '%' . $search . '%');
         });
     }
 

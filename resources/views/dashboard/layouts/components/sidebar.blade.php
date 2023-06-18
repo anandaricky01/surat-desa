@@ -95,7 +95,7 @@
                 @endif
                 @if (auth()->user()->role == 'admin' || auth()->user()->role == 'pegawai')
                 <li class="nav-item">
-                    <a href="{{ asset('laporan.php') }}" class="nav-link">
+                    <a href="{{ route('laporan') }}" class="nav-link {{ request()->is('dashboard/laporan*') ? 'active' : ''}}">
                         <i class="nav-icon fab fa-blogger"></i>
                         <p>
                             Laporan

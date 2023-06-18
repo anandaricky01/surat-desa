@@ -96,7 +96,7 @@ class SuratController extends Controller
         // variabel untuk memasukan data dalam model PengantarKTP
         $data = [];
 
-        foreach (['scan_kk', 'user_id', 'status', 'keterangan'] as $key) {
+        foreach (['scan_kk', 'scan_ktp', 'user_id', 'status', 'keterangan'] as $key) {
             $data[$key] = $validated[$key];
         }
 
@@ -148,9 +148,6 @@ class SuratController extends Controller
     public function status_request(Request $request){
 
         // mengambil data dari model SKTM dan PengantarKTP
-        // $sktm = SKTM::latest()->filter($request->only('search'))->get();
-        // $pengantar_ktp = PengantarKTP::latest()->filter($request->only('search'))->get();
-        // $surat_kematian = SuratKematian::latest()->filter($request->only('search'))->get();
         $sktm = SKTM::where('user_id', auth()->user()->id)->get();
         $pengantar_ktp = PengantarKTP::where('user_id', auth()->user()->id)->get();
         $surat_kematian = SuratKematian::where('user_id', auth()->user()->id)->get();
@@ -201,6 +198,11 @@ class SuratController extends Controller
         $perPage = 5; // variabel untuk menentukan banyak data per halaman
         $total = $sktm->count() + $pengantar_ktp->count() + $surat_kematian->count(); // variabel untuk menghitung banyak data gabungan dari model model surat
 
+        // hitung jumlah surat berdasarkan status
+        $surat_sedang_diproses = $sktm->where('status', 'sedang diproses')->count() + $pengantar_ktp->where('status', 'sedang diproses')->count() + $surat_kematian->where('status', 'sedang diproses')->count();
+        $surat_diacc = $sktm->where('status', 'acc')->count() + $pengantar_ktp->where('status', 'acc')->count() + $surat_kematian->where('status', 'acc')->count();
+        $surat_tidak_diacc = $sktm->where('status', 'tidak acc')->count() + $pengantar_ktp->where('status', 'tidak acc')->count() + $surat_kematian->where('status', 'tidak acc')->count();
+
         // Mengurutkan data $surat berdasarkan kolom 'status' dengan nilai 'sedang diproses' dan 'created_at'
         $surat = $surat->sortByDesc(function ($item) {
             return $item->status === 'sedang diproses' ? 1 : 0;
@@ -218,12 +220,57 @@ class SuratController extends Controller
         return view('dashboard.surat.permohonan_surat_masuk',[
             'surats' => $surat,
             'perPage' => $perPage,
+            'sedang_diproses' => $surat_sedang_diproses,
+            'acc' => $surat_diacc,
+            'tidak_acc' => $surat_tidak_diacc,
+        ]);
+    }
+
+    public function laporan(Request $request){
+        // mengambil data dari model SKTM dan PengantarKTP
+        $sktm = SKTM::latest()->filter($request->only('search'))->get();
+        $pengantar_ktp = PengantarKTP::latest()->filter($request->only('search'))->get();
+        $surat_kematian = SuratKematian::latest()->filter($request->only('search'))->get();
+
+        // instansi baru dari collection, untuk menggabungkan data data dari model SKTM dan PengantarKTP
+        $surat = new Collection();
+        $surat = $surat->merge($sktm);
+        $surat = $surat->merge($pengantar_ktp);
+        $surat = $surat->merge($surat_kematian);
+
+        $currentPage = $request->get('page'); // variabel untuk menentukan halaman saat ini
+        $perPage = 5; // variabel untuk menentukan banyak data per halaman
+        $total = $sktm->where('status', '!=' ,'sedang diproses')->count() + $pengantar_ktp->where('status', '!=' ,'sedang diproses')->count() + $surat_kematian->where('status', '!=' ,'sedang diproses')->count(); // variabel untuk menghitung banyak data gabungan dari model model surat
+
+        // hitung jumlah surat berdasarkan status
+        $surat_sedang_diproses = $sktm->where('status', 'sedang diproses')->count() + $pengantar_ktp->where('status', 'sedang diproses')->count() + $surat_kematian->where('status', 'sedang diproses')->count();
+        $surat_diacc = $sktm->where('status', 'acc')->count() + $pengantar_ktp->where('status', 'acc')->count() + $surat_kematian->where('status', 'acc')->count();
+        $surat_tidak_diacc = $sktm->where('status', 'tidak acc')->count() + $pengantar_ktp->where('status', 'tidak acc')->count() + $surat_kematian->where('status', 'tidak acc')->count();
+
+        // Mengurutkan data $surat berdasarkan kolom 'status' dengan nilai 'sedang diproses' dan 'created_at'
+        $surat = $surat->where('status', '!=' ,'sedang diproses');
+
+        // buat paginasi
+        $surat = new LengthAwarePaginator(
+            $surat->forPage($currentPage, $perPage),
+            $total,
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        return view('dashboard.surat.laporan',[
+            'surats' => $surat,
+            'perPage' => $perPage,
+            'sedang_diproses' => $surat_sedang_diproses,
+            'acc' => $surat_diacc,
+            'tidak_acc' => $surat_tidak_diacc,
         ]);
     }
 
     public function detail_pengantar_ktp($id){
         try {
-            $pengantar_ktp = PengantarKTP::find($id)->first();
+            $pengantar_ktp = PengantarKTP::where('id', $id)->first();
             // dd($pengantar_ktp);
 
             return view('dashboard.surat.detail_pengantar_ktp', [
@@ -237,7 +284,7 @@ class SuratController extends Controller
     public function detail_sktm($id){
         try {
             //code...
-            $sktm = SKTM::find($id)->first();
+            $sktm = SKTM::where('id', $id)->first();
             // dd($sktm);
             return view('dashboard.surat.detail_sktm', [
                 'sktm' => $sktm,
@@ -251,7 +298,7 @@ class SuratController extends Controller
     public function detail_surat_kematian($id){
         try {
             //code...
-            $surat_kematian = SuratKematian::find($id)->first();
+            $surat_kematian = SuratKematian::where('id', $id)->first();
             // dd($surat_kematian);
             return view('dashboard.surat.detail_surat_kematian', [
                 'surat_kematian' => $surat_kematian,
@@ -260,6 +307,50 @@ class SuratController extends Controller
             //throw $th;
             return redirect()->back()->with('danger', 'Data surat tidak ditemukan!');
         }
+    }
+
+    public function proses_surat(Request $request, $id, $proses){
+        if($proses == 'acc'){
+            if($request->jenis_surat == 'Surat Keterangan Tidak Mampu'){
+                SKTM::where('id', $id)->update([
+                    'status' => 'acc',
+                    'tanggapan' => $request->tanggapan,
+                ]);
+            } else if($request->jenis_surat == 'Surat Kematian'){
+                SuratKematian::where('id', $id)->update([
+                    'status' => 'acc',
+                    'tanggapan' => $request->tanggapan,
+                ]);
+            } else{
+                PengantarKTP::where('id', $id)->update([
+                    'status' => 'acc',
+                    'tanggapan' => $request->tanggapan,
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Surat berhasil diacc');
+        } else {
+            if($request->jenis_surat == 'Surat Keterangan Tidak Mampu'){
+                SKTM::where('id', $id)->update([
+                    'status' => 'tidak acc',
+                    'tanggapan' => $request->tanggapan,
+                ]);
+            } else if($request->jenis_surat == 'Surat Kematian'){
+                SuratKematian::where('id', $id)->update([
+                    'status' => 'tidak acc',
+                    'tanggapan' => $request->tanggapan,
+                ]);
+            } else{
+                PengantarKTP::where('id', $id)->update([
+                    'status' => 'tidak acc',
+                    'tanggapan' => $request->tanggapan,
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Surat berhasil ditolak');
+        }
+
+        return redirect()->back()->with('danger', 'Kegiatan tidak berhasil dilakukan!');
     }
 
     // scan kk adalah instansi dari $request->file('scan_kk')

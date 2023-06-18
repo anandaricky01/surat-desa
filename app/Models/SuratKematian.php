@@ -21,6 +21,7 @@ class SuratKematian extends Model
         'sebab_meninggal',
         'status',
         'scan_ktp',
+        'tanggapan',
     ];
 
     public function scopeFilter($query, Array $filters){
@@ -28,7 +29,7 @@ class SuratKematian extends Model
             $query->whereHas('user', function ($query) use ($search){
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('nik', 'like', '%' . $search . '%');
-            });
+            })->orWhere('jenis_surat', 'like', '%' . $search . '%');
         });
     }
 

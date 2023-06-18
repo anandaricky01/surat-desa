@@ -17,6 +17,7 @@ class SKTM extends Model
         'scan_ktp',
         'scan_kk',
         'keterangan',
+        'tanggapan',
     ];
 
     public function scopeFilter($query, Array $filters){
@@ -24,7 +25,7 @@ class SKTM extends Model
             $query->whereHas('user', function ($query) use ($search){
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('nik', 'like', '%' . $search . '%');
-            });
+            })->orWhere('jenis_surat', 'like', '%' . $search . '%');
         });
     }
 

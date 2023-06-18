@@ -29,16 +29,19 @@
         <div class="card-header">
             <div class="card-tools">
                 @if (auth()->user()->role == 'pegawai')
-                <a href="{{ route('permohonan_surat_masuk') }}" class="btn btn-sm btn-warning float-right">
-                    <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-                <a href="{{ route('status_request') }}" class="btn btn-sm btn-info float-right">
-                    <i class="fas fa-check"></i> Acc</a>
-                <a href="{{ route('status_request') }}" class="btn btn-sm btn-danger float-right">
-                    <i class="fas fa-times" title="Hapus"></i> Tidak Acc</a>
-            @else
-                <a href="{{ route('status_request') }}" class="btn btn-sm btn-warning float-right">
-                    <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-            @endif
+                    <a href="javascript:void(0);" onclick="goBack()" class="btn btn-sm btn-warning float-right">
+                        <i class="fas fa-arrow-alt-circle-left"></i> Kembali
+                    </a>
+
+                    <script>
+                        function goBack() {
+                            window.history.back();
+                        }
+                    </script>
+                @else
+                    <a href="{{ route('status_request') }}" class="btn btn-sm btn-warning float-right">
+                        <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+                @endif
             </div>
         </div>
         <!-- /.card-header -->
@@ -98,6 +101,10 @@
                                 $surat_kematian->status }}</span>
                             @endif
                         </td>
+                    </tr>
+                    <tr>
+                        <td width="20%"><strong>Tanggapan<strong></td>
+                        <td width="80%">{{ $surat_kematian->tanggapan ?? 'belum ada tanggapan' }}</td>
                     </tr>
                 </tbody>
             </table>

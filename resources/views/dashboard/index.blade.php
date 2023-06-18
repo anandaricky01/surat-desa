@@ -34,7 +34,9 @@
                 <div class="icon">
                   <i class="ion ion-bag"></i>
                 </div>
-                <a href="{{ route('sktm') }}" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
+                @if (auth()->user()->role == 'penduduk')
+                    <a href="{{ route('sktm') }}" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
+                @endif
               </div>
             </div>
             <!-- ./col -->
@@ -49,7 +51,9 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
+                @if (auth()->user()->role == 'penduduk')
                 <a href="{{ route('pengantar_ktp') }}" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
+                @endif
               </div>
             </div>
             <!-- ./col -->
@@ -64,7 +68,9 @@
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
                 </div>
+                @if (auth()->user()->role == 'penduduk')
                 <a href="suratkematian.php" class="small-box-footer">Pengajuan <i class="fas fa-arrow-circle-right"></i></a>
+                @endif
               </div>
             </div>
               </div>
